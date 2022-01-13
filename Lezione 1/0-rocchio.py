@@ -6,19 +6,6 @@
 \------------------------------------------
 '''
 
-# FUNCTION: 
-#   - Encode
-#   - Decode
-#   - Exit
-
-# NOTE: 
-# CHAR to ASCII
-# ord('h') -> 104
-
-# ASCII to CHAR
-# chr(104) -> 'h'
-
-
 # https://docs.python.org/3/library/string.html
 import string
 
@@ -27,12 +14,12 @@ import string
 alphList = list(string.ascii_lowercase)
 
 
-# ---- Exception Manage ----
+''' ---- Exception Manage ---- '''
 class SubCipherError(Exception):
     '''Error Executing Substitution Cipher Script'''
 
 
-# ---- IO Manage ----
+''' ---- IO Manage ---- '''
 # Function to read file contents.
 def read_file(filename):
     # Manage IO Exception.
@@ -46,7 +33,7 @@ def read_file(filename):
     return read_str.strip('\n')
 
 
-# function 
+# Function to write file contents.
 def write_file(filename, txt):
     try:
         # Open in read text mode.
@@ -58,7 +45,7 @@ def write_file(filename, txt):
     print('Encrypted message correctly and saved in -> "ciphertext.txt"\n')
 
 
-# ---- Encode & Decode character ----
+''' ---- Encode & Decode character ---- '''
 def charToNum(char):
     return alphList.index(char)
 
@@ -78,14 +65,15 @@ def decodeChar(char, cKey):
     return numToChar(charToNum(char) - charToNum(cKey))
 
 
-# ---- Encode & Decode character ----
+''' ---- Encode & Decode character ---- '''
 def printResult(plainTxt, key, cipherTxt):
     print("\nPlain Text:     " + plainTxt)
     print("Key:            " + key[0:len(plainTxt)])
     print("Encrypted text: " + cipherTxt + "\n")
 
 
-# ---- Encode & Decode message ----
+'''  ---- Encode & Decode message ---- '''
+# Function that performs word encryption
 def encrypt():    
     # TODO: Check the length of word!
     key = read_file('key.txt')
@@ -105,6 +93,7 @@ def encrypt():
     return cipherText
     
 
+# Function that performs word decryption
 def decrypt():
     key = read_file('key.txt')
     cipherTxt = read_file('ciphertext.txt')
@@ -118,7 +107,7 @@ def decrypt():
     return plainTxt
 
 
-# ---- MAIN ----
+''' ---- MAIN ---- '''
 if __name__ == '__main__':
     while True:
         prompt = '''What do you want to do?
