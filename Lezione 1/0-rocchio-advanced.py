@@ -12,7 +12,7 @@ import string
 import random
 
 # We generate the list of usable characters.
-alphList = list(string.ascii_letters + string.digits + string.punctuation)
+alphList = list(string.printable)
 
 
 ''' ---- Exception Manage ---- '''
