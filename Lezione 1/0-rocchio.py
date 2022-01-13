@@ -9,9 +9,8 @@
 # https://docs.python.org/3/library/string.html
 import string
 
-
 # We generate the list of usable characters.
-alphList = list(string.ascii_lowercase)
+alphList = list(string.ascii_letters)
 
 
 ''' ---- Exception Manage ---- '''
@@ -65,7 +64,7 @@ def decodeChar(char, cKey):
     return numToChar(charToNum(char) - charToNum(cKey))
 
 
-''' ---- Encode & Decode character ---- '''
+''' ---- OUT RESULT ---- '''
 def printResult(plainTxt, key, cipherTxt):
     print("\nPlain Text:     " + plainTxt)
     print("Key:            " + key[0:len(plainTxt)])
@@ -75,7 +74,6 @@ def printResult(plainTxt, key, cipherTxt):
 '''  ---- Encode & Decode message ---- '''
 # Function that performs word encryption
 def encrypt():    
-    # TODO: Check the length of word!
     key = read_file('key.txt')
     word = input('Enter the word to encode: ')
     
@@ -83,7 +81,6 @@ def encrypt():
         raise Exception('\nError: Text longer than the encryption key. \nWord length: ' + str(len(word)) + '\nKey length: ' + str(len(key)) + '\nRetry...\n\n')
     
     cipherText = ""
-    
     
     for i in range(0, len(word)):
         cipherText += encodeChar(word[i], key[i])
