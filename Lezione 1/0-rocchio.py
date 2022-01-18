@@ -55,7 +55,7 @@ def encodeChar(char, cKey):
     # cipherNum = ( charToNum(char) + charToNum(cKey) ) % 26
     # cipherText = numToChar(cipherNum)
     # return cipherText
-    return numToChar((charToNum(char) + charToNum(cKey)) % 26)
+    return numToChar((charToNum(char) + charToNum(cKey)) % len(alphList))
 
 def decodeChar(char, cKey):
     # plainNum = charToNum(char) - charToNum(cKey)
@@ -65,10 +65,17 @@ def decodeChar(char, cKey):
 
 
 ''' ---- OUT RESULT ---- '''
-def printResult(plainTxt, key, cipherTxt):
+# Print out the result of the encryption.
+def printResultEncription(plainTxt, key, cipherTxt):
     print("\nPlain Text:     " + plainTxt)
+    print("Encrypted text: " + cipherTxt)
+    print("Key:            " + key[0:len(plainTxt)] + "\n")
+
+# Print out the result of the decription.
+def printResultDecription(plainTxt, key, cipherTxt):
+    print("\nEncrypted text: " + cipherTxt)
     print("Key:            " + key[0:len(plainTxt)])
-    print("Encrypted text: " + cipherTxt + "\n")
+    print("Plain Text:     " + plainTxt + "\n")
 
 
 '''  ---- Encode & Decode message ---- '''
@@ -100,7 +107,7 @@ def decrypt():
         plainTxt += decodeChar(cipherTxt[i], key[i])
         
     print('Text decrypted correctly!')
-    printResult(plainTxt, key, cipherTxt)
+    printResultDecription(plainTxt, key, cipherTxt)
     return plainTxt
 
 
