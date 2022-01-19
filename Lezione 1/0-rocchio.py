@@ -14,6 +14,7 @@ alphList = list(string.ascii_letters)
 
 
 ''' ---- Exception Manage ---- '''
+## TODO: Personalizzare le eccezioni!
 class SubCipherError(Exception):
     '''Error Executing Substitution Cipher Script'''
 
@@ -46,6 +47,8 @@ def write_file(filename, txt):
 
 ''' ---- Encode & Decode character ---- '''
 def charToNum(char):
+    ## TODO: Controllare se index corrisponde o presente.
+    ## ! Lanciare eccezione in caso contrario
     return alphList.index(char)
 
 def numToChar(num):
@@ -85,6 +88,7 @@ def encrypt():
     word = input('Enter the word to encode: ')
     
     if len(word) > len(key):
+        ## FIXME: Non usare eccezioni generiche, poco pratiche e introducono BUG. 
         raise Exception('\nError: Text longer than the encryption key. \nWord length: ' + str(len(word)) + '\nKey length: ' + str(len(key)) + '\nRetry...\n\n')
     
     cipherText = ""
@@ -125,6 +129,7 @@ if __name__ == '__main__':
         choice = input(prompt)
         try:
             if choice == '1':
+                ## TODO: Rimuovere il try catch.
                 try:
                     encrypt()
                 except Exception as e:
