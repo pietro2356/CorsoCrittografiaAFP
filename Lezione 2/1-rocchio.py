@@ -24,7 +24,7 @@ import os
 import sys
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
-from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import asksaveasfilename
 tk.Tk().withdraw()
 
 import Crypto.Random as rnd
@@ -90,9 +90,9 @@ def read_file(prompt, validate=None):# se validazione non c'è non accade nulla
 # Check length of the data
 def check_c_len(data, c_len): 
         if(len(data)) >= c_len:
-            return ''
+            return ""
         else: 
-            return 'Error: Ciphertext must be at least ' + c_len + ' bytes long.'
+            return "Error: Ciphertext must be at least " + str(c_len) + " bytes long."
 
 
 # c_data = read_file('Enter Ciphertext file: ', lambda data: check_c_len(data, 31))
@@ -103,8 +103,7 @@ def encryptWithAuth(bin_data):
 
 def encryptWithOUTAuth(bin_data):
     key = rnd.get_random_bytes(16)
-    
-    write_file(asksaveasfile(mode='w', filetypes=[".key"], initialdir=os.getcwd(), title='Choose where to save your key file'), lambda data: check_c_len(key, 31))
+    write_file(askopenfilename(initialdir=os.getcwd(), title='Write key file'), key)
     
     cipher = Salsa20.new(key)
     return cipher.nonce + cipher.encrypt(bin_data)
@@ -130,7 +129,7 @@ def encrypt():
     print("Select file to encrypt: ")
     in_file_path = askopenfilename(initialdir=os.getcwd(), title='Select file to encrypt')
     print("Choose where to save your file: ")
-    out_file_path = asksaveasfile(mode='w', initialdir=os.getcwd(), title='Choose where to save your file')
+    out_file_path = asksaveasfilename(initialdir=os.getcwd(), title='Choose where to save your file')
     
     print("I am reading the file...")
     check_bin_data = read_file(in_file_path, lambda data: check_c_len(data, 31))
@@ -143,7 +142,7 @@ def encrypt():
         write_file(out_file_path, cipherTXT)
     elif choice == 'N':
         cipherTXT = encryptWithOUTAuth(check_bin_data)
-        write_file(out_file_path.name, cipherTXT)
+        write_file(out_file_path, cipherTXT)
     else:
         raise SelectionErrorException('Invalid choice, please try again!')
     # TODO: Convert file to bin
@@ -156,9 +155,9 @@ def encrypt():
     
     
 
-def decrypt(data):
-    key = 
-    file = read_file(askopenfilename(initialdir=os.getcwd(), title='Select key file'), lambda data: check_c_len(data, 31))
+def decrypt():
+    # key = 
+    # file = read_file(askopenfilename(initialdir=os.getcwd(), title='Select key file'), lambda data: check_c_len(data, 31))
 
 
 # load file
@@ -166,11 +165,11 @@ def decrypt(data):
     in_file_path = askopenfilename(initialdir=os.getcwd(), title='Select file to decrypt')
     
     print("Select file key: ")
-    in_key_file_path = askopenfilename(initialdir=os.getcwd(), filetypes=[".key"], title='Select key file')
+    in_key_file_path = askopenfilename(initialdir=os.getcwd(), title='Select key file')
     
     
     print("Choose where to save your decripted file: ")
-    out_plain_file_path = asksaveasfile(mode='w', initialdir=os.getcwd(), title='Choose where to save your file')
+    out_plain_file_path = asksaveasfilename(initialdir=os.getcwd(), title='Choose where to save your file')
     
     print("I am reading the file...")
     check_bin_data = read_file(in_file_path, lambda data: check_c_len(data, 31))
@@ -182,8 +181,8 @@ def decrypt(data):
         cipherTXT = decryptWithAuth(check_bin_data)
         write_file(out_plain_file_path, cipherTXT)
     elif choice == 'N':
-        cipherTXT = decryptWithOUTAuth(in_key_file_path, in_file_path)
-        write_file(out_plain_file_path.name, cipherTXT)
+        cipherTXT = decryptWithOUTAuth(read_file(in_key_file_path), read_file(in_file_path))
+        write_file(out_plain_file_path, cipherTXT)
     else:
         raise SelectionErrorException('Invalid choice, please try again!')
 
